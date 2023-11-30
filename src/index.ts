@@ -1,21 +1,22 @@
 import express from 'express';
-import { createPool } from 'mysql2/promise'
+import { createPool } from 'mysql2/promise';
 import { config } from 'dotenv';
 config();
-console.log(process.env.MYSQLDB_DATABASE)
+
 const app = express();
+
 const pool = createPool({
-  host: process.env.MYSQLDB_HOST,
-  user: process.env.MYSQLDB_USER,
-  password: process.env.MYSQLDB__PASSWORD,
-  port: process.env.MYSQLDB_DOCKER_PORT
+  host: process.env.MYSQLDB_HOST as string,
+  user: process.env.MYSQLDB_USER as string,
+  password: process.env.MYSQLDB__PASSWORD as string,
+  port: parseInt(process.env.MYSQLDB_DOCKER_PORT as string)
 })
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.send('Hello World!');
 });
 
-app.get('/ping', async (req, res) => {
+app.get('/ping', async (_, res) => {
   const result = await pool.query('SELECT NOW()')
   res.send(result[0]);
 });
