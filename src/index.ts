@@ -17,8 +17,14 @@ app.get('/', (_, res) => {
 });
 
 app.get('/ping', async (_, res) => {
-  const result = await pool.query('SELECT NOW()')
-  res.send(result[0]);
+  try {
+    const result = await pool.query('SELECT NOW()')
+    res.send(result[0]);
+
+  } catch (error) {
+    res.status(500).send({ error: error, message: 'error' });
+  }
+
 });
 
 const PORT = process.env.NODE_LOCAL_PORT || 3000;

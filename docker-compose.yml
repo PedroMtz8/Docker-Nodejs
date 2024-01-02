@@ -17,4 +17,4 @@ services:
     links:
       - mysqldb
     ports:
-      - $NODE_LOCAL_PORT:$NODE_LOCAL_PORT
+      - 3000:3000
