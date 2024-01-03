@@ -18,4 +18,6 @@ COPY --from=builder /myapp/build ./build
 COPY --from=builder /myapp/node_modules ./node_modules
 COPY --from=builder /myapp/package*.json ./
 
+EXPOSE 3000
+
 CMD ["npm", "start"]

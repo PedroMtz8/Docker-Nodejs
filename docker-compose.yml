@@ -10,11 +10,19 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
 
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+
   app:
     build: .
     depends_on:
       - mysqldb
+      - redis
     links:
       - mysqldb
+      - redis
     ports:
       - 3000:3000
