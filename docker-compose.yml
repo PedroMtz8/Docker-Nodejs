@@ -14,8 +14,7 @@ services:
     container_name: redis
     image: redis
     ports:
-      - 6379:6379
-
+      - $REDIS_PORT:$REDIS_PORT
   app:
     build: .
     depends_on:
@@ -25,4 +24,4 @@ services:
       - mysqldb
       - redis
     ports:
-      - 3000:3000
+      - $NODE_LOCAL_PORT:$NODE_LOCAL_PORT
