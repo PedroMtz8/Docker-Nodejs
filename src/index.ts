@@ -4,13 +4,20 @@ import { config } from 'dotenv';
 import { createClient } from 'redis';
 config();
 
-const client = createClient({
-  url: 'redis://127.0.0.1:6379',
-}).on('error', (err: Error) => {
+// const client = createClient({
+//   url: 'redis://redis:6379',
+// }).on('error', (err: Error) => {
+//   console.error('Error connecting to Redis:', err);
+// });
 
-  console.log(err);
-}
-);
+const client = createClient({
+  password: process.env.REDIS_PASSWORD as string,
+  socket: {
+    host: process.env.REDIS_HOST as string,
+    port: Number(process.env.REDIS_PORT) || 6379,
+  }
+});
+
 
 (async () => { await client.connect(); })();
 
@@ -26,8 +33,10 @@ const pool = createPool({
 app.use(express.json());
 
 app.get('/', (_, res) => {
-  res.send('Hello World!');
+  res.send('Hello World! changeee 2');
+
 });
+
 
 app.get('/ping', async (_, res) => {
   try {
@@ -72,9 +81,6 @@ app.delete('/delete/:key', async (req, res) => {
   res.send(value);
 
 });
-
-
-
 
 const PORT = process.env.NODE_LOCAL_PORT || 3000;
 app.listen(PORT, () => {
